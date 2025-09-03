@@ -1,0 +1,104 @@
+:root {
+  --filler-color: rgb(161, 74, 64);
+  --watched-color: rgb(35, 194, 101);
+  --watched-color-hover: rgb(0, 172, 72);
+  --watching-color: rgb(0, 105, 255);
+  --watching-color-hover: rgb(0, 55, 131);
+  --watching-color-2-hover: rgb(40, 47, 63);
+}
+
+.fa {
+  position: absolute;
+  transform: translateX(-65px);
+  font-size: 46px;
+}
+
+[class*="season"][class*="EpisodeID"] {
+  /* season%EpisodeID */
+  display: flex !important;
+  align-items: center !important;
+  gap: 15px !important;
+  justify-content: left !important;
+  padding: 4px !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  height: 88px !important;
+}
+
+[id*="NotWatched"] {
+  margin-left: 0px !important;
+}
+
+.filler,
+.filler:hover {
+  box-shadow: 0px -8px var(--filler-color) inset;
+  transition: unset !important;
+
+  & td a:has(i), > a {
+    box-shadow: 0px -8px var(--filler-color) inset;
+  }
+}
+
+.watched,
+.watched > a {
+  background-color: var(--watched-color) !important;
+  transition: unset !important;
+}
+
+li.watched:hover > a:not(.anything), li.watched > a.active {
+  font-weight: bold;
+  color: var(--watched-color-hover) !important;
+}
+tr.watched:hover {
+  transition: unset !important;
+  background-color: var(--watched-color-hover) !important;
+}
+
+li.watching a {
+  background-color: var(--watching-color) !important;
+  transition: unset !important;
+
+  &.active {
+    font-weight: bold;
+    color: var(--watching-color) !important;
+  }
+}
+
+li.watching:hover > a:not(.anything) {
+  font-weight: bold;
+  color: var(--watching-color) !important;
+}
+
+.watching {
+  background: linear-gradient(
+    to right,
+    var(--watching-color) var(--progress, 0%),
+    transparent var(--progress, 0%),
+    transparent 100%
+  );
+
+  &:hover {
+    background: linear-gradient(
+      to right,
+      var(--watching-color-hover) var(--progress, 0%),
+      var(--watching-color-2-hover) var(--progress, 0%),
+      var(--watching-color-2-hover) 100%
+    ) !important;
+  }
+}
+
+.episodeMarker {
+  float: right;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  position: relative;
+
+  cursor: pointer;
+
+  & >i {
+    font-size: 25px;
+    transform: translateX(-35px);
+  }
+}
+
