@@ -20,10 +20,17 @@ jobs:
       - name: Set today's date to env
         run: echo "DATE=$(date +'%d.%m.%Y')" >> $GITHUB_ENV
 
-      - name: Release
-        uses: svenstaro/upload-release-action@v2
+      # - name: Release
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     tag: "AniWorld-Filler"
+      #     asset_name: "AniWorld Fillers ${{ env.DATE }}"
+      #     file: ./Filler-Scraper/fillers.json
+
+      - name: Release and Upload Asset
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          tag: "AniWorld-Filler"
-          asset_name: "AniWorld Fillers ${{ env.DATE }}"
-          file: ./Filler-Scraper/fillers.json
+          name: "AniWorld Fillers ${{ env.DATE }}"
+          tag_name: AniWorld-Filler
+          files: ./Filler-Scraper/fillers.json
