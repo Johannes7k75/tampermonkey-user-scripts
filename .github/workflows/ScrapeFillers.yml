@@ -7,16 +7,16 @@ jobs:
     name: Scrape-Fillers
     runs-on: ubuntu-latest
     steps:
-      # ...
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      # run any `bun` or `bunx` command
-      - run: cd OnePiece-Filler && bun install cheerio && bun ScrapeFillers.ts
+      - run: |
+          bun install
+          bun run ScrapeFillers/index.ts
 
       - uses: actions/upload-artifact@v4.4.3
         with:
           name: my-artifact
-          path: ./OnePiece-Filler/one-piece.js
+          path: ./Filler-Scraper/fillers.js
 
       - name: Set today's date to env
         run: echo "DATE=$(date +'%d.%m.%Y')" >> $GITHUB_ENV
@@ -25,8 +25,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          tag_name: "OnePieceFiller"
-          name: "One Piece Filler ${{ env.DATE }}"
+          tag_name: "AniWorld-Filler"
+          name: "AniWorld Fillers ${{ env.DATE }}"
           files: |
-            ./OnePiece-Filler/one-piece.json
-    
+            ./Filler-Scraper/fillers.json
