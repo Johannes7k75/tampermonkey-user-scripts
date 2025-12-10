@@ -11,12 +11,12 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: |
           bun install
-          bun run ScrapeFillers/index.ts
+          bun run ./Filler-Scraper/index.ts
 
       - uses: actions/upload-artifact@v4.4.3
         with:
           name: my-artifact
-          path: ./Filler-Scraper/fillers.js
+          path: ./Filler-Scraper/fillers.json
 
       - name: Set today's date to env
         run: echo "DATE=$(date +'%d.%m.%Y')" >> $GITHUB_ENV
