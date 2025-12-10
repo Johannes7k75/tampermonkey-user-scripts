@@ -21,10 +21,9 @@ jobs:
         run: echo "DATE=$(date +'%d.%m.%Y')" >> $GITHUB_ENV
 
       - name: Release
-        uses: softprops/action-gh-release@v2
+        uses: svenstaro/upload-release-action@v2
         with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          tag_name: "AniWorld-Filler"
-          name: "AniWorld Fillers ${{ env.DATE }}"
-          files: |
-            ./Filler-Scraper/fillers.json
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          tag: "AniWorld-Filler"
+          asset_name: "AniWorld Fillers ${{ env.DATE }}"
+          file: ./Filler-Scraper/fillers.json
