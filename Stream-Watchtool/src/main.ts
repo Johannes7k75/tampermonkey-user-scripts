@@ -1,5 +1,4 @@
-// @ts-ignore isolatedModules
-import { GM_deleteValue, GM_getResourceText, GM_getValue, GM_log, GM_setValue } from "$";
+import { GM_getResourceText, GM_getValue, GM_log, GM_setValue } from "$";
 
 import "./style.css";
 
@@ -11,8 +10,15 @@ enum EpisodeState {
 
 const [seasonList, episodeList]: HTMLUListElement[] = Array.from(document.querySelectorAll<HTMLUListElement>("#stream ul"));
 
-const seasons = Array.from(seasonList.querySelectorAll("li:has(a)")).filter((e) => typeof Number.parseInt(e.innerHTML) === "number");
-const episodes = Array.from(episodeList.querySelectorAll("li:has(a)"));
+function getNumbersATags(element: HTMLElement) {
+  return Array.from(element.querySelectorAll("li:has(a) a")).filter((el) => {
+    const num = Number.parseInt(el.innerHTML, 10);
+    return !Number.isNaN(num) && typeof num === "number";
+  });
+}
+
+const seasons = getNumbersATags(seasonList);
+const episodes = getNumbersATags(episodeList);
 
 const activeSeason = seasonList.querySelector<HTMLAnchorElement>("li a.active") as HTMLAnchorElement;
 const activeEpisode = episodeList.querySelector<HTMLAnchorElement>("li a.active");
@@ -49,8 +55,7 @@ function setAnimeWatchList(animeWatchList: WatchListAnime[]) {
   GM_log("Anime Watch List saved", animeWatchList);
   GM_setValue("animeWatchList", animeWatchList);
 }
-// @ts-ignore
-window.resetWatchList = () => setAnimeWatchList([]);
+(window as any).resetWatchList = () => setAnimeWatchList([]);
 
 const seasonSelectionParentDiv = document.querySelector(".pageTitle");
 if (seasonSelectionParentDiv) {
@@ -122,7 +127,7 @@ function updateButtons() {
       episodes: episodes.map((episode) => ({
         watched: false,
         watchTime: 0,
-        episodeNumber: episode.children[0].innerHTML,
+        episodeNumber: episode.innerHTML,
       })),
     };
 
@@ -147,16 +152,18 @@ function updateButtons() {
 
   const animeWatchList = getAnimeWatchList();
   const title = titleElement?.textContent ?? "undefined";
-  let existingAnime = getExistingAnime(title);
+  const existingAnime = getExistingAnime(title);
 
-  const fillerList = JSON.parse(GM_getResourceText("one-piece.json")) as {
+  type Filler = {
     id: number;
     title: string;
     date: string;
     isFiller: boolean;
     episode: number;
     season: number;
-  }[];
+  };
+
+  const fillerList = JSON.parse(GM_getResourceText("fillers.json")) as Record<string, Filler[]>;
 
   if (episodesListTable) {
     if (activeSeason) {
@@ -164,7 +171,7 @@ function updateButtons() {
 
       Array.from(episodesListTable.children).forEach((episodeListButton) => {
         const episodeNumber = episodeListButton.querySelector<HTMLMetaElement>("meta[itemprop='episodeNumber']")!.content;
-        const existingEpisode = existingSeason?.episodes.find((episode) => episode.episodeNumber == episodeNumber);
+        const existingEpisode = existingSeason?.episodes.find((episode) => episode.episodeNumber === episodeNumber);
 
         let episodeState = EpisodeState.NotWatched;
         if (existingEpisode?.watched) {
@@ -173,14 +180,14 @@ function updateButtons() {
 
         const eye = document.createElement("i");
         eye.id = `${EpisodeState[episodeState]}-episode-${episodeNumber}`;
-        eye.className = `fa ${episodeState == EpisodeState.Watched ? "fa-eye-slash" : "fa-eye"}`;
+        eye.className = `fa ${episodeState === EpisodeState.Watched ? "fa-eye-slash" : "fa-eye"}`;
         eye.addEventListener("click", () => {
           const anime = getExistingAnime(title);
           const season = getExistingSeason(activeSeason.innerHTML);
           const episode = getExistingEpisode(episodeNumber, activeSeason.innerHTML);
 
           episode.watched = !episode.watched;
-          season.watched = season.episodes.filter((episode) => episode.watched && episode.watchTime == 100).length === season.allEpisodesNumber;
+          season.watched = season.episodes.filter((episode) => episode.watched && episode.watchTime === 100).length === season.allEpisodesNumber;
 
           setAnimeWatchList(animeWatchList);
           doFancyStuff(anime);
@@ -193,7 +200,7 @@ function updateButtons() {
   if (dropDownContainer) {
     if (normalDropdown) {
       dropDownContainer.addEventListener("click", () => {
-        if (normalDropdown.style.display == "none") {
+        if (normalDropdown.style.display === "none") {
           normalDropdown.style.display = "block";
         } else {
           normalDropdown.style.display = "none";
@@ -206,7 +213,9 @@ function updateButtons() {
 
       if (watchedButton.classList.contains("season")) {
         const season = getExistingSeason(activeSeason.innerHTML);
-        season.episodes.forEach((episode) => (episode.watched = true));
+        season.episodes.forEach((episode) => {
+          episode.watched = true;
+        });
         season.watched = true;
       } else if (watchedButton.classList.contains("episode")) {
         const episode = getExistingEpisode(activeEpisode!.innerHTML, activeSeason.innerHTML);
@@ -221,7 +230,9 @@ function updateButtons() {
 
       if (watchedButton.classList.contains("season")) {
         const season = getExistingSeason(activeSeason.innerHTML);
-        season.episodes.forEach((episode) => (episode.watched = false));
+        season.episodes.forEach((episode) => {
+          episode.watched = false;
+        });
         season.watched = false;
       } else if (watchedButton.classList.contains("episode")) {
         const episode = getExistingEpisode(activeEpisode!.innerHTML, activeSeason.innerHTML);
@@ -239,7 +250,7 @@ function updateButtons() {
     const header = episodeMarker.querySelector("h3") as HTMLElement;
     if (episodeNumber) {
       const existingEpisode = existingSeason?.episodes.find((episode) => episode.episodeNumber === episodeNumber);
-      let watchedEpisode = existingEpisode?.watched ?? false;
+      const watchedEpisode = existingEpisode?.watched ?? false;
 
       const eye = episodeMarker.querySelector("i") as HTMLElement;
       if (eye) {
@@ -275,11 +286,11 @@ function updateButtons() {
 
   function markEpisodeAsWatched(episodeNumber: string, episodeState: EpisodeState) {
     const episodeButtonId = episodeNumber;
-    const listEpisode = episodes[Number.parseInt(episodeButtonId) - 1];
+    const listEpisode = episodes[Number.parseInt(episodeButtonId, 10) - 1];
 
     const tableEpisode = episodesListTable?.querySelector<HTMLTableRowElement>(`[data-episode-season-id='${episodeNumber}']`);
 
-    if (episodeState == EpisodeState.NotWatched) {
+    if (episodeState === EpisodeState.NotWatched) {
       listEpisode.classList.remove("watched");
       listEpisode.classList.remove("watching");
       if (tableEpisode) {
@@ -287,7 +298,7 @@ function updateButtons() {
         tableEpisode.classList.remove("watched");
         tableEpisode.classList.remove("watching");
       }
-    } else if (episodeState == EpisodeState.Watched) {
+    } else if (episodeState === EpisodeState.Watched) {
       listEpisode.classList.remove("watching");
       listEpisode.classList.add("watched");
       if (tableEpisode) {
@@ -295,7 +306,7 @@ function updateButtons() {
         tableEpisode.classList.remove("watching");
         tableEpisode.classList.add("watched");
       }
-    } else if (episodeState == EpisodeState.Watching) {
+    } else if (episodeState === EpisodeState.Watching) {
       const watchedAnimeEpisode = getExistingEpisode(episodeButtonId, activeSeason.innerHTML);
       const progress = watchedAnimeEpisode.watchTime;
       if (!progress) return;
@@ -310,22 +321,22 @@ function updateButtons() {
   }
 
   function markSeasonAsWatched(seasonNumber: string, seasonState: EpisodeState) {
-    const season = seasons.find((season) => season.children[0].innerHTML === seasonNumber);
+    const season = seasons.find((season) => season.innerHTML === seasonNumber);
 
-    if (seasonState == EpisodeState.NotWatched) {
+    if (seasonState === EpisodeState.NotWatched) {
       season?.classList.remove("watching");
       season?.classList.remove("watched");
-    } else if (seasonState == EpisodeState.Watched) {
+    } else if (seasonState === EpisodeState.Watched) {
       season?.classList.remove("watching");
       season?.classList.add("watched");
-    } else if (seasonState == EpisodeState.Watching) {
+    } else if (seasonState === EpisodeState.Watching) {
       season?.classList.remove("watched");
       season?.classList.add("watching");
     }
   }
 
   function markEpisodeAsFiller(episodeNumber: string, isFiller: boolean) {
-    const listEpisode = episodes[Number.parseInt(episodeNumber) - 1].children[0] as HTMLAnchorElement;
+    const listEpisode = episodes[Number.parseInt(episodeNumber, 10) - 1] as HTMLAnchorElement;
     const tableEpisode = episodesListTable?.querySelector<HTMLTableRowElement>(`[data-episode-season-id='${episodeNumber}']`);
 
     if (isFiller) {
@@ -340,10 +351,11 @@ function updateButtons() {
       }
     }
   }
-  //#region Region 3
+
   function doFancyStuff(anime: WatchListAnime) {
-    if (title === "One Piece") {
-      const fillers = fillerList.filter((filler) => filler.season.toString() === activeSeason.innerHTML && filler.isFiller);
+    const title = location.pathname.split("/").at(3);
+    if (title && title in fillerList) {
+      const fillers = fillerList[title].filter((filler) => filler.season.toString() === activeSeason.innerHTML && filler.isFiller);
       for (const filler of fillers) {
         markEpisodeAsFiller(filler.episode.toString(), filler.isFiller);
       }
@@ -383,12 +395,4 @@ function updateButtons() {
   doFancyStuff(existingAnime as WatchListAnime);
 }
 
-// const streamHosters = document.querySelectorAll(".hosterSiteVideo ul.row li:not([style='display: none;'])");
-// streamHosters.forEach((hoster) => {
-//   const hosterName = hoster.querySelector("h4")?.textContent;
-//   hoster.children[0].addEventListener("click", () => {
-//     const videoIframe = document.querySelector<HTMLIFrameElement>(".inSiteWebStream iframe");
-
-//   });
-// });
 updateButtons();
