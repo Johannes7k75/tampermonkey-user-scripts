@@ -1,0 +1,11 @@
+{
+  "name": "tampermonkey-user-scripts",
+  "private": true,
+  "workspaces": [
+    "Filler-Scraper",
+    "Stream-Watchtool"
+  ],
+  "dependencies": {
+    "@types/bun": "^1.3.4"
+  }
+}
