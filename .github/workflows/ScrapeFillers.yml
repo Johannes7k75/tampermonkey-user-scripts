@@ -13,7 +13,7 @@ jobs:
       - name: Cache Request Cache Database
         uses: actions/cache@v4
         with:
-          path: ./Filler-Scraper/request_cache.sqlite
+          path: ./request_cache.sqlite
           key: ${{ runner.os }}-sqlite-cache-${{ hashFiles('bun.lockb') }}-v1
           restore-keys: |
             ${{ runner.os }}-sqlite-cache-
