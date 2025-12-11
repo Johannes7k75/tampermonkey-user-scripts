@@ -20,17 +20,39 @@ jobs:
       - name: Set today's date to env
         run: echo "DATE=$(date +'%d.%m.%Y')" >> $GITHUB_ENV
 
-      # - name: Release
-      #   uses: svenstaro/upload-release-action@v2
-      #   with:
-      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
-      #     tag: "AniWorld-Filler"
-      #     asset_name: "AniWorld Fillers ${{ env.DATE }}"
-      #     file: ./Filler-Scraper/fillers.json
+      - name: Extract Anime Keys from JSON
+        id: extract_keys
+        run: |
+          # Use jq to get all keys, pipe them into a multiline list format
+          # (prepended with * ), and save the result to an environment variable.
+          ANIME_KEYS=$(jq -r 'keys[] | "* " + .' ./Filler-Scraper/fillers.json)
+
+          # Set the list of keys to an output variable for use in the next step
+          echo "ANIME_KEYS<<EOF" >> $GITHUB_ENV
+          echo "$ANIME_KEYS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Set dynamic release variables
+        id: set_vars
+        run: |
+          DATE=$(date +'%d.%m.%Y')
+          echo "RELEASE_TAG=daily-AniWorld-filler-release" >> $GITHUB_ENV
+          echo "ASSET_NAME=AniWorld_Fillers_$DATE.json" >> $GITHUB_ENV
 
       - name: Release and Upload Asset
         uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: "AniWorld Fillers ${{ env.DATE }}"
-          tag_name: AniWorld-Filler
-          files: ./Filler-Scraper/fillers.json
+          name: "Daily AniWorld Fillers"
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: ./Filler-Scraper/fillers.json:${{ env.ASSET_NAME }}
+          body: |
+            This release contains the latest scraped filler data, generated on ${{ env.DATE }}.
+
+            ---
+
+            ## Scraped Anime Series:
+            ${{ env.ANIME_KEYS }}
+
+          overwrite: true
