@@ -46,7 +46,7 @@ jobs:
         with:
           name: "Daily AniWorld Fillers"
           tag_name: ${{ env.RELEASE_TAG }}
-          files: ./Filler-Scraper/fillers.json:${{ env.ASSET_NAME }}
+          files: ./Filler-Scraper/fillers.json
           body: |
             This release contains the latest scraped filler data, generated on ${{ env.DATE }}.
 
@@ -54,5 +54,3 @@ jobs:
 
             ## Scraped Anime Series:
             ${{ env.ANIME_KEYS }}
-
-          overwrite: true
