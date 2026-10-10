@@ -1,0 +1,299 @@
+.jvc-toolbar {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(4px);
+    padding: 4px 6px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 11px;
+    color: #fff;
+    pointer-events: auto;
+}
+
+.jvc-toolbar__title {
+    margin: 0 4px 0 0;
+    padding: 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+}
+
+.jvc-toolbar__timer {
+    color: #f87171;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    margin-right: 2px;
+}
+
+.jvc-toolbar__btn {
+    padding: 3px 8px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 11px;
+    font-family: inherit;
+    line-height: 1;
+}
+
+.jvc-toolbar__btn--record {
+    background: #dc2626;
+}
+
+.jvc-toolbar__btn--stop {
+    background: #4b5563;
+}
+
+.jvc-toolbar__btn--snap {
+    background: #374151;
+}
+
+.jvc-toolbar__btn--saved {
+    background: #16a34a;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* ==========================================
+ * Settings panel + floating action button
+ * ========================================== */
+
+.jvc-fab {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 100000;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(17, 24, 39, 0.9);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jvc-fab:hover {
+    background: #1f2937;
+}
+
+.jvc-settings-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100001;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.jvc-settings-panel {
+    background: #111827;
+    color: #f3f4f6;
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+    width: min(520px, 92vw);
+    max-height: 86vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.jvc-settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #1f2937;
+}
+
+.jvc-settings-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.jvc-settings-close {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.jvc-settings-close:hover {
+    background: #1f2937;
+    color: #fff;
+}
+
+.jvc-settings-body {
+    padding: 12px 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.jvc-settings-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+}
+
+.jvc-settings-label {
+    font-size: 11px;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+}
+
+.jvc-settings-input {
+    background: #0b1220;
+    border: 1px solid #1f2937;
+    border-radius: 4px;
+    color: #f3f4f6;
+    font-size: 13px;
+    padding: 6px 8px;
+    font-family: inherit;
+}
+
+.jvc-settings-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.jvc-settings-hint {
+    font-size: 10px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.jvc-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid #1f2937;
+}
+
+.jvc-settings-btn {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.jvc-settings-btn--reset {
+    background: #374151;
+    color: #fff;
+}
+
+.jvc-settings-btn--reset:hover {
+    background: #4b5563;
+}
+
+.jvc-settings-btn--save {
+    background: #2563eb;
+    color: #fff;
+}
+
+.jvc-settings-btn--save:hover {
+    background: #1d4ed8;
+}
+
+/* ==========================================
+ * Token badges + autocomplete (template editor)
+ * ========================================== */
+
+.jvc-token-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.jvc-token-badge {
+    background: #1f2937;
+    color: #93c5fd;
+    border: 1px solid #374151;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.jvc-token-badge:hover {
+    background: #374151;
+    border-color: #4b5563;
+}
+
+.jvc-autocomplete {
+    position: absolute;
+    z-index: 10;
+    background: #0b1220;
+    border: 1px solid #374151;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    max-height: 180px;
+    overflow-y: auto;
+    min-width: 140px;
+}
+
+.jvc-autocomplete-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: #f3f4f6;
+    padding: 4px 10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.jvc-autocomplete-item:hover,
+.jvc-autocomplete-item:focus {
+    background: #1f2937;
+    outline: none;
+}
+
+.jvc-autocomplete-item--active {
+    background: #2563eb;
+    color: #fff;
+}
+
+.jvc-autocomplete-item--active:hover {
+    background: #1d4ed8;
+}
+
+/* ==========================================
+ * (Rich template input removed — template fields are now plain text inputs
+ * with clickable token badges + autocomplete.)
+ * ========================================== */
