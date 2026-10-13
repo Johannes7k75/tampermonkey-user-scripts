@@ -2,15 +2,18 @@
   "name": "tampermonkey-user-scripts",
   "private": true,
   "scripts": {
-    "build:userscripts": "bun scripts/build-userscripts.ts"
+    "build:userscripts": "bun scripts/build-userscripts.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "workspaces": [
-    "Filler-Scraper",
-    "Stream-Watchtool",
+    "Clone-With-Vscode",
     "Filler-Highlighter",
-    "Clone-With-Vscode"
+    "Filler-Scraper",
+    "Jitsi-Video-Capture",
+    "Stream-Watchtool"
   ],
   "devDependencies": {
-    "@types/bun": "^1.4.3"
+    "@types/bun": "^1.4.3",
+    "typescript": "^5.9.3"
   }
 }

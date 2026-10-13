@@ -4,6 +4,5 @@
   "name": "Jitsi Video Capture",
   "type": "vite",
   "asset": "jitsi-video-capture.user.js",
-  "output": "jitsi-video-capture.user.js",
-  "install": "bun install --frozen-lockfile"
+  "output": "jitsi-video-capture.user.js"
 }

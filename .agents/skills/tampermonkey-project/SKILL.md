@@ -28,23 +28,27 @@ description: Work in the Johannes7k75 tampermonkey-user-scripts repository, incl
   "name": "Example Script",
   "type": "vite",
   "asset": "example-script.user.js",
-  "output": "example-script.user.js",
-  "install": "bun install --frozen-lockfile"
+  "output": "example-script.user.js"
 }
 ```
 
 6. Ensure `asset` names are unique across all active scripts.
-7. Keep each project’s lockfile and dependency versions consistent with its Vite/plugin major versions.
+7. Keep all package dependencies in the root workspace and use only the root `bun.lock`.
 
-Source scripts may use `"type": "source"` with a sibling `.js` file and `"source"` instead of `"output"` and `"install"`. Prefer migrating scripts to Vite/TypeScript when they need typed code, bundling, or generated metadata.
+Source scripts may use `"type": "source"` with a sibling `.js` file and `"source"` instead of `"output"`. Prefer migrating scripts to Vite/TypeScript when they need typed code, bundling, or generated metadata.
 
 ## Commands
 
-Build one Vite script:
+Install all workspace dependencies from the repository root:
+
+```bash
+bun install --frozen-lockfile
+```
+
+Build one Vite script after installing from the root:
 
 ```bash
 cd <script-directory>
-bun install --frozen-lockfile
 bun run build
 ```
 

@@ -37,10 +37,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         if: matrix.script.type == 'vite'
+      - name: Install dependencies
+        if: matrix.script.type == 'vite'
+        run: bun install --frozen-lockfile
       - name: Build userscript
         if: matrix.script.type == 'vite'
         working-directory: ${{ matrix.script.directory }}
-        run: ${{ matrix.script.install }} && bun run build
+        run: bun run build
       - name: Prepare source userscript
         if: matrix.script.type == 'source'
         run: mkdir -p release-assets && cp "${{ matrix.script.directory }}/${{ matrix.script.source }}" "release-assets/${{ matrix.script.asset }}"

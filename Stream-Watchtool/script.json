@@ -4,6 +4,5 @@
   "name": "Stream Watchtool",
   "type": "vite",
   "asset": "stream-watchtool.user.js",
-  "output": "stream-watchtool.user.js",
-  "install": "bun install"
+  "output": "stream-watchtool.user.js"
 }

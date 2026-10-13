@@ -1,11 +1,13 @@
 SHELL := /bin/bash
-CONFIGS := $(shell find . -name script.json -not -path './node_modules/*' -not -path '*/node_modules/*' | sort)
+CONFIGS := $(shell find . -name script.json -not -path './node_modules/*' -not -path '*/node_modules/*' -not -path '*/.old/*' | sort)
 
-.PHONY: help list build install tag release
+.PHONY: help install-deps typecheck list build install tag release
 
 help:
 	@echo "make list                         List configured userscripts"
-	@echo "make build                        Build all compiled userscripts"
+	@echo "make install-deps                 Install all workspace dependencies"
+	@echo "make typecheck                    Type-check repository tooling"
+	@echo "make build                        Build all userscripts into dist/"
 	@echo "make install SCRIPT=<id>          Build and install a userscript locally"
 	@echo "make tag VERSION=x.y.z            Create the global release tag vVERSION"
 	@echo "make release VERSION=x.y.z        Build, tag, and push a release"
@@ -13,17 +15,17 @@ help:
 	@echo "Configured scripts:"
 	@$(MAKE) --no-print-directory list
 
+install-deps:
+	bun install --frozen-lockfile
+
+typecheck:
+	bun run typecheck
+
 list:
 	@for config in $(CONFIGS); do jq -r '"\(.id)\t\(.name)"' "$$config"; done
 
 build:
-	@for config in $(CONFIGS); do \
-		if [[ "$$(jq -r '.type' "$$config")" == vite ]]; then \
-			directory=$$(dirname "$$config"); \
-			echo "Building $$(jq -r '.name' "$$config")"; \
-			(cd "$$directory" && eval "$$(jq -r '.install' "$$(basename "$$config")")" && bun run build); \
-		fi; \
-	done
+	bun run build:userscripts
 
 install:
 	@test -n "$(SCRIPT)" || (echo "Usage: make install SCRIPT=<id>" >&2; exit 1)

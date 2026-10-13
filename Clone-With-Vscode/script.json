@@ -4,6 +4,5 @@
   "name": "Clone With Vscode",
   "type": "vite",
   "asset": "clone-with-vscode.user.js",
-  "output": "clone-with-vscode.user.js",
-  "install": "bun install --frozen-lockfile"
+  "output": "clone-with-vscode.user.js"
 }

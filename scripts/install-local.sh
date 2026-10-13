@@ -3,6 +3,7 @@ set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
+bun install --frozen-lockfile
 
 id="${1:-}"
 config="$(find . -name script.json -not -path './node_modules/*' -not -path '*/node_modules/*' -print0 | while IFS= read -r -d '' file; do
@@ -21,7 +22,7 @@ fi
 directory="$(dirname "$config")"
 type="$(jq -r '.type' "$config")"
 if [[ "$type" == vite ]]; then
-  (cd "$directory" && eval "$(jq -r '.install' "$(basename "$config")")" && bun run build)
+  (cd "$directory" && bun run build)
   file="$directory/dist/$(jq -r '.output' "$config")"
 else
   file="$directory/$(jq -r '.source' "$config")"

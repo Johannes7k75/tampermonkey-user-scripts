@@ -4,6 +4,5 @@
   "name": "AniWorld Filler highlighter",
   "type": "vite",
   "asset": "filler-highlighter.user.js",
-  "output": "filler-highlighter.user.js",
-  "install": "bun install --frozen-lockfile"
+  "output": "filler-highlighter.user.js"
 }
