@@ -1,3 +1,4 @@
 node_modules/
+dist/
 request_cache.sqlite
 fillers.json

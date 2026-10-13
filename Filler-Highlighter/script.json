@@ -2,7 +2,8 @@
   "$schema": "../scripts/script.schema.json",
   "id": "filler-highlighter",
   "name": "AniWorld Filler highlighter",
-  "type": "source",
+  "type": "vite",
   "asset": "filler-highlighter.user.js",
-  "source": "FillerHighlighter.js"
+  "output": "filler-highlighter.user.js",
+  "install": "bun install --frozen-lockfile"
 }

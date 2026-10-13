@@ -1,8 +1,9 @@
 {
   "$schema": "../scripts/script.schema.json",
   "id": "clone-with-vscode",
-  "name": "Clone with VSCode",
-  "type": "source",
+  "name": "Clone With Vscode",
+  "type": "vite",
   "asset": "clone-with-vscode.user.js",
-  "source": "CloneWithVSCode.js"
+  "output": "clone-with-vscode.user.js",
+  "install": "bun install --frozen-lockfile"
 }

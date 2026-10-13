@@ -19,7 +19,13 @@ export default defineConfig({
         downloadURL: "https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/stream-watchtool.user.js",
         match: ["*://*/anime/stream/*", "*://*/serie/stream/*"],
         icon: "https://vitejs.dev/logo.svg",
-        grant: ["GM_getResourceText"],
+        grant: [
+          "GM_addStyle",
+          "GM_getResourceText",
+          "GM_getValue",
+          "GM_log",
+          "GM_setValue",
+        ],
 
         license: "MIT",
         resource: {
