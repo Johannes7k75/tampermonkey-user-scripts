@@ -15,6 +15,8 @@ export default defineConfig({
         description: "Lets you highlight watched episoded and seasons. Also highlights Filler episodes on One Piece",
         namespace: "github/Johannes7k75/Stream-Watchtool",
         version: version,
+        updateURL: "https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/stream-watchtool.user.js",
+        downloadURL: "https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/stream-watchtool.user.js",
         match: ["*://*/anime/stream/*", "*://*/serie/stream/*"],
         icon: "https://vitejs.dev/logo.svg",
         grant: ["GM_getResourceText"],

@@ -1,0 +1,9 @@
+{
+  "$schema": "../scripts/script.schema.json",
+  "id": "jitsi-video-capture",
+  "name": "Jitsi Video Capture",
+  "type": "vite",
+  "asset": "jitsi-video-capture.user.js",
+  "output": "jitsi-video-capture.user.js",
+  "install": "bun install --frozen-lockfile"
+}

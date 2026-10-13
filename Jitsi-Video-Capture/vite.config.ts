@@ -16,6 +16,8 @@ export default defineConfig({
           "Adds recording with live duration timer, screenshots, and custom naming templates to Jitsi video tiles",
         namespace: "github/Johannes7k75/Jitsi-Video-Capture",
         version: version,
+        updateURL: "https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/jitsi-video-capture.user.js",
+        downloadURL: "https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/jitsi-video-capture.user.js",
         match: ["https://meet.jit.si/*"],
         include: ["/^https://jitsi\.[^/]*?/.*?$/"],
         grant: ["GM_setValue", "GM_getValue", "GM_registerMenuCommand", "GM_log", "GM_download"],

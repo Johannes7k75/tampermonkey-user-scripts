@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Johannes7k75/tampermonkey-user-scripts/main/scripts/script.schema.json",
+  "title": "Tampermonkey script metadata",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "enum": [
+        "source",
+        "vite"
+      ]
+    },
+    "asset": {
+      "type": "string",
+      "pattern": "^[^/]+\\.user\\.js$",
+      "description": "Filename uploaded to the GitHub Release."
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^[^/]+\\.js$"
+    },
+    "output": {
+      "type": "string",
+      "pattern": "^[^/]+\\.user\\.js$"
+    },
+    "install": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "asset"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "source"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "source"
+        ],
+        "not": {
+          "required": [
+            "output",
+            "install"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "vite"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "output",
+          "install"
+        ]
+      }
+    }
+  ],
+  "additionalProperties": false
+}

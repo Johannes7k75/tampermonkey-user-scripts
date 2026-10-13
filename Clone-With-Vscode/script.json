@@ -1,0 +1,8 @@
+{
+  "$schema": "../scripts/script.schema.json",
+  "id": "clone-with-vscode",
+  "name": "Clone with VSCode",
+  "type": "source",
+  "asset": "clone-with-vscode.user.js",
+  "source": "CloneWithVSCode.js"
+}

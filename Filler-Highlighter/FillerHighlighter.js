@@ -4,8 +4,8 @@
 // @namespace             https://github.com/Johannes7k75
 // @version               1.0.2
 // @match                 https://aniworld.to/anime/stream/*
-// @updateURL             https://raw.githubusercontent.com/Johannes7k75/tampermonkey-user-scripts/refs/heads/main/Filler-Scraper/FillerHighlighter.js
-// @downloadURL           https://raw.githubusercontent.com/Johannes7k75/tampermonkey-user-scripts/refs/heads/main/Filler-Scraper/FillerHighlighter.js
+// @updateURL             https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/filler-highlighter.user.js
+// @downloadURL           https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/filler-highlighter.user.js
 // @resource fillers.json https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/download/AniWorld-Filler/fillers.json
 // @grant                 GM_getResourceText
 // ==/UserScript==

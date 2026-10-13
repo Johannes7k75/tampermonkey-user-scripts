@@ -4,8 +4,8 @@
 // @namespace    https://github.com/Johannes7k75
 // @version      1.0.1
 // @match        https://github.com/*/*
-// @updateURL    https://raw.githubusercontent.com/Johannes7k75/tapermonkey-user-scripts/refs/heads/main/CloneWithVSCode.js
-// @downloadURL    https://raw.githubusercontent.com/Johannes7k75/tapermonkey-user-scripts/refs/heads/main/CloneWithVSCode.js
+// @updateURL    https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/clone-with-vscode.user.js
+// @downloadURL    https://github.com/Johannes7k75/tampermonkey-user-scripts/releases/latest/download/clone-with-vscode.user.js
 // ==/UserScript==
 
 (function () {
